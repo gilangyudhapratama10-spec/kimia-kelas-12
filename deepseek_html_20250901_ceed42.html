@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Kimia Interaktif</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        nav {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        .nav-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 1rem;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-link:hover {
+            background-color: #f8f9fa;
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .nav-link.active {
+            background-color: #e8f4fc;
+            border-bottom: 3px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .content-section {
+            display: none;
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .interactive-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .simulation {
+            background-color: #e8f4fc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .quiz-container {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .options label {
+            display: block;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .options label:hover {
+            background-color: #e8f4fc;
+        }
+        
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--dark);
+            color: white;
+            margin-top: 2rem;
+        }
+        
+        .formula-box {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .formula {
+            font-family: 'Cambria Math', serif;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+        
+        .teacher-profile {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #e8f4fc, #d1ecf1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .teacher-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--secondary);
+            margin-right: 1.5rem;
+        }
+        
+        .teacher-info {
+            flex: 1;
+        }
+        
+        .simulation-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .simulation-panel {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .visualization {
+            height: 200px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-list {
+                flex-direction: column;
+            }
+            
+            .nav-item {
+                min-width: 100%;
+            }
+            
+            .teacher-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-photo {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Media Pembelajaran Kimia Interaktif</h1>
+    </header>
+    
+    <div class="container">
+        <nav>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#" class="nav-link active" data-target="intro">Pendahuluan</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-target="asam-basa">Larutan Asam Basa</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-target="kesetimbangan">Kesetimbangan dalam Larutan</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-target="koligatif">Sifat Koligatif Larutan</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-target="koloid">Koloid</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-target="biodata">Biodata Guru</a></li>
+            </ul>
+        </nav>
+        
+        <section id="intro" class="content-section active">
+            <h2>Pendahuluan</h2>
+            <p>Selamat datang di media pembelajaran kimia interaktif! Modul ini akan membahas empat topik penting dalam kimia larutan:</p>
+            <ul>
+                <li>Larutan Asam Basa</li>
+                <li>Kesetimbangan dalam Larutan</li>
+                <li>Sifat Koligatif Larutan</li>
+                <li>Koloid</li>
+            </ul>
+            <p>Gunakan menu navigasi di atas untuk menjelajahi setiap topik. Setiap bagian dilengkapi dengan materi, simulasi interaktif, dan kuis untuk menguji pemahaman Anda.</p>
+            
+            <div class="interactive-box">
+                <h3>Simulasi: Identifikasi Larutan</h3>
+                <p>Pilih suatu zat untuk melihat klasifikasinya:</p>
+                <select id="zatSelector" class="btn">
+                    <option value="">-- Pilih Zat --</option>
+                    <option value="asam">Larutan HCl</option>
+                    <option value="basa">Larutan NaOH</option>
+                    <option value="garam">Larutan NaCl</option>
+                    <option value="koloid">Susu</option>
+                </select>
+                <div id="zatResult" style="margin-top: 1rem; padding: 1rem; border-radius: 4px; display: none;"></div>
+            </div>
+        </section>
+        
+        <section id="asam-basa" class="content-section">
+            <h2>Larutan Asam Basa</h2>
+            <p>Larutan asam basa adalah larutan yang memiliki sifat asam atau basa. Asam memiliki pH kurang dari 7, sedangkan basa memiliki pH lebih dari 7.</p>
+            
+            <h3>Teori Asam Basa</h3>
+            <p>Terdapat beberapa teori asam basa, termasuk teori Arrhenius, Bronsted-Lowry, dan Lewis.</p>
+            
+            <div class="simulation">
+                <h3>Simulasi: Pengukuran pH</h3>
+                <p>Pilih larutan untuk mengukur pH-nya:</p>
+                <select id="phSelector">
+                    <option value="1">Asam Kuat (HCl 0.1M)</option>
+                    <option value="3">Asam Lemah (CH₃COOH 0.1M)</option>
+                    <option value="7">Air Netral (H₂O)</option>
+                    <option value="11">Basa Lemah (NH₃ 0.1M)</option>
+                    <option value="13">Basa Kuat (NaOH 0.1M)</option>
+                </select>
+                <button class="btn" onclick="ukurPH()">Ukur pH</button>
+                
+                <div style="margin-top: 1rem;">
+                    <div style="height: 30px; background: linear-gradient(90deg, #e74c3c 0%, #e74c3c 16.67%, #f39c12 16.67%, #f39c12 33.33%, #f1c40f 33.33%, #f1c40f 50%, #2ecc71 50%, #2ecc71 66.67%, #3498db 66.67%, #3498db 83.33%, #2c3e50 83.33%, #2c3e50 100%); border-radius: 4px; position: relative;"></div>
+                    <div id="phIndicator" style="height: 30px; width: 4px; background-color: black; position: relative; top: -30px; left: 0; transition: left 0.5s ease;"></div>
+                </div>
+                <p id="phValue" style="text-align: center; margin-top: -20px;"></p>
+            </div>
+            
+            <div class="quiz-container">
+                <h3>Kuis Asam Basa</h3>
+                <div class="question">
+                    <p>1. Larutan dengan pH = 3 bersifat...</p>
+                    <div class="options">
+                        <label><input type="radio" name="q1" value="a"> Asam kuat</label>
+                        <label><input type="radio" name="q1" value="b"> Asam lemah</label>
+                        <label><input type="radio" name="q1" value="c"> Basa lemah</label>
+                        <label><input type="radio" name="q1" value="d"> Basa kuat</label>
+                    </div>
+                </div>
+                <button class="btn" onclick="checkAnswer('q1', 'a')">Periksa Jawaban</button>
+                <div id="q1-result" class="result"></div>
+            </div>
+        </section>
+        
+        <section id="kesetimbangan" class="content-section">
+            <h2>Kesetimbangan dalam Larutan</h2>
+            <p>Kesetimbangan kimia terjadi ketika laju reaksi maju sama dengan laju reaksi balik, dan konsentrasi spesies kimia tetap konstan.</p>
+            
+            <h3>Prinsip Le Chatelier</h3>
+            <p>Jika suatu sistem dalam kesetimbangan mengalami perubahan, sistem akan menyesuaikan diri untuk melawan perubahan tersebut.</p>
+            
+            <div class="interactive-box">
+                <h3>Simulasi: Pergeseran Kesetimbangan</h3>
+                <p>Pilih perubahan yang dilakukan pada sistem kesetimbangan:</p>
+                <select id="stressSelector">
+                    <option value="tambahA">Tambahkan Konsentrasi A</option>
+                    <option value="kurangA">Kurangi Konsentrasi A</option>
+                    <option value="tambahB">Tambahkan Konsentrasi B</option>
+                    <option value="tekanan">Tingkatkan Tekanan</option>
+                    <option value="suhu">Tingkatkan Suhu</option>
+                </select>
+                <button class="btn" onclick="simulasiKesetimbangan()">Lihat Pengaruh</button>
+                
+                <div id="equilibriumResult" style="margin-top: 1rem; padding: 1rem; background-color: #e8f4fc; border-radius: 4px; display: none;"></div>
+            </div>
+        </section>
+        
+        <section id="koligatif" class="content-section">
+            <h2>Sifat Koligatif Larutan</h2>
+            <p>Sifat koligatif larutan adalah sifat yang hanya bergantung pada jumlah partikel zat terlarut dan tidak bergantung pada jenis zat terlarut.</p>
+            
+            <h3>1. Penurunan Tekanan Uap (ΔP)</h3>
+            <div class="formula-box">
+                <p class="formula">ΔP = P₀ - P = P₀ · Xₜ</p>
+                <p>Keterangan:</p>
+                <ul>
+                    <li>ΔP = Penurunan tekanan uap</li>
+                    <li>P₀ = Tekanan uap pelarut murni</li>
+                    <li>P = Tekanan uap larutan</li>
+                    <li>Xₜ = Fraksi mol zat terlarut</li>
+                </ul>
+            </div>
+            
+            <div class="simulation">
+                <h3>Simulasi: Penurunan Tekanan Uap</h3>
+                <p>Atur konsentrasi larutan (fraksi mol zat terlarut):</p>
+                <input type="range" id="pressureSlider" min="0" max="0.5" step="0.05" value="0" oninput="updatePressure(this.value)">
+                <span id="pressureValue">0 (Pelarut Murni)</span>
+                
+                <div class="visualization">
+                    <div id="pressureSim" style="height: 100%; display: flex; align-items: flex-end; justify-content: center;">
+                        <div style="width: 80%; height: 70%; background-color: #3498db; border-radius: 4px 4px 0 0; position: relative;">
+                            <div id="vaporParticles" style="position: absolute; top: 0; left: 0; width: 100%; height: 30%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <p>Tekanan uap: <span id="pressureResult">100%</span> dari tekanan uap pelarut murni</p>
+            </div>
+            
+            <h3>2. Kenaikan Titik Didih (ΔTb)</h3>
+            <div class="formula-box">
+                <p class="formula">ΔTb = Tb - Tb₀ = Kb · m · i</p>
+                <p>Keterangan:</p>
+                <ul>
+                    <li>ΔTb = Kenaikan titik didih</li>
+                    <li>Tb = Titik didih larutan</li>
+                    <li>Tb₀ = Titik didih pelarut murni</li>
+                    <li>Kb = Konstanta kenaikan titik didih molal</li>
+                    <li>m = Molalitas larutan</li>
+                    <li>i = Faktor Van't Hoff</li>
+                </ul>
+            </div>
+            
+            <div class="simulation">
+                <h3>Simulasi: Kenaikan Titik Didih</h3>
+                <p>Atur molalitas larutan:</p>
+                <input type="range" id="boilingSlider" min="0" max="2" step="0.1" value="0" oninput="updateBoilingPoint(this.value)">
+                <span id="boilingValue">0 molal</span>
+                
+                <div class="visualization">
+                    <div id="boilingSim" style="height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <div style="width: 100px; height: 100px; background-color: #e74c3c; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.5s ease;">
+                            <span id="boilingTemp">100°C</span>
+                        </div>
+                        <div style="margin-top: 10px; text-align: center;">
+                            <div id="bubbleContainer" style="height: 40px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <p>Titik didih larutan: <span id="boilingResult">100°C</span></p>
+            </div>
+            
+            <h3>3. Penurunan Titik Beku (ΔTf)</h3>
+            <div class="formula-box">
+                <p class="formula">ΔTf = Tf₀ - Tf = Kf · m · i</p>
+                <p>Keterangan:</p>
+                <ul>
+                    <li>ΔTf = Penurunan titik beku</li>
+                    <li>Tf = Titik beku larutan</li>
+                    <li>Tf₀ = Titik beku pelarut murni</li>
+                    <li>Kf = Konstanta penurunan titik beku molal</li>
+                    <li>m = Molalitas larutan</li>
+                    <li>i = Faktor Van't Hoff</li>
+                </ul>
+            </div>
+            
+            <div class="simulation">
+                <h3>Simulasi: Penurunan Titik Beku</h3>
+                <p>Masukkan molalitas larutan:</p>
+                <input type="range" id="molalitasSlider" min="0" max="2" step="0.1" value="0" oninput="updateMolalitas(this.value)">
+                <span id="molalitasValue">0 molal</span>
+                
+                <div class="visualization">
+                    <div id="freezingSim" style="height: 100%; display: flex; align-items: flex-end; justify-content: center;">
+                        <div style="width: 80%; height: 80%; background-color: #3498db; border-radius: 4px 4px 0 0; transition: height 0.5s ease; position: relative;">
+                            <div id="iceCrystals" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 20%; background: linear-gradient(0deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 100%); border-radius: 0 0 4px 4px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <p>Titik beku larutan: <span id="titikBeku">0°C</span></p>
+            </div>
+            
+            <h3>4. Tekanan Osmotik (π)</h3>
+            <div class="formula-box">
+                <p class="formula">π = M · R · T · i</p>
+                <p>Keterangan:</p>
+                <ul>
+                    <li>π = Tekanan osmotik (atm)</li>
+                    <li>M = Molaritas larutan (mol/L)</li>
+                    <li>R = Tetapan gas (0,082 L·atm/mol·K)</li>
+                    <li>T = Suhu mutlak (K)</li>
+                    <li>i = Faktor Van't Hoff</li>
+                </ul>
+            </div>
+            
+            <div class="simulation">
+                <h3>Simulasi: Tekanan Osmotik</h3>
+                <p>Atur konsentrasi larutan (M):</p>
+                <input type="range" id="osmoticSlider" min="0" max="1" step="0.1" value="0" oninput="updateOsmoticPressure(this.value)">
+                <span id="osmoticValue">0 M</span>
+                
+                <div class="visualization">
+                    <div id="osmoticSim" style="height: 100%; display: flex; align-items: center; justify-content: center; position: relative;">
+                        <div style="width: 60%; height: 70%; background-color: #3498db33; border: 2px solid #3498db; border-radius: 8px; position: relative; overflow: hidden;">
+                            <div id="solventFlow" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+                        </div>
+                        <div style="width: 60%; height: 70%; background-color: #e74c3c33; border: 2px solid #e74c3c; border-radius: 8px; margin-left: 10px; position: relative; overflow: hidden;">
+                            <div id="solutionLevel" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background-color: #e74c3c66; transition: height 0.5s ease;"></div>
+                        </div>
+                        <div id="membrane" style="position: absolute; width: 4px; height: 70%; background-color: #2c3e50; left: 50%; transform: translateX(-50%);"></div>
+                    </div>
+                </div>
+                <p>Tekanan osmotik: <span id="osmoticResult">0 atm</span></p>
+                <p>Ketinggian: <span id="heightDifference">0 cm</span></p>
+            </div>
+        </section>
+        
+        <section id="koloid" class="content-section">
+            <h2>Koloid</h2>
+            <p>Koloid adalah campuran heterogen antara dua zat dimana partikel zat yang satu (terdispersi) tersebar merata dalam zat lain (pendispersi).</p>
+            
+            <h3>Jenis-Jenis Koloid</h3>
+            <ul>
+                <li>Aerosol: cair atau padat dalam gas (contoh: kabut, asap)</li>
+                <li>Sol: padat dalam cair (contoh: cat, tinta)</li>
+                <li>Emulsi: cair dalam cair (contoh: susu, mayones)</li>
+                <li>Gel: cair dalam padat (contoh: agar-agar, gelatin)</li>
+                <li>Buih: gas dalam cair atau padat (contoh: krim kocok, batu apung)</li>
+            </ul>
+            
+            <div class="interactive-box">
+                <h3>Simulasi: Efek Tyndall</h3>
+                <p>Pilih jenis sistem dispersi:</p>
+                <select id="systemSelector" onchange="demonstrasiTyndall()">
+                    <option value="larutan">Larutan (Gula dalam Air)</option>
+                    <option value="koloid">Koloid (Susu dalam Air)</option>
+                    <option value="suspensi">Suspensi (Tepung dalam Air)</option>
+                </select>
+                
+                <div class="visualization">
+                    <div id="lightBeam" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%); opacity: 0; transition: opacity 0.5s ease;"></div>
+                </div>
+                <p id="tyndallResult" style="text-align: center; margin-top: 0.5rem;">Sorot lampu untuk melihat efek Tyndall</p>
+            </div>
+        </section>
+        
+        <section id="biodata" class="content-section">
+            <h2>Biodata Guru</h2>
+            <div class="teacher-profile">
+                <img src="https://placehold.co/400x400/3498db/FFFFFF?text=GYP" alt="Foto Gilang Yuda Pratama, S.Pd" class="teacher-photo">
+                <div class="teacher-info">
+                    <h3>Gilang Yuda Pratama, S.Pd</h3>
+                    <p><strong>Guru Mata Pelajaran:</strong> Kimia</p>
+                    <p><strong>Asal Sekolah:</strong> SMAN 10 Kabupaten Tangerang</p>
+                    <p><strong>Pendidikan:</strong> S1 Pendidikan Kimia</p>
+                    <p><strong>Email:</strong> gilang.yuda@sman10tangerang.sch.id</p>
+                    <p><strong>Motto:</strong> "Belajar kimia itu menyenangkan ketika kita memahami konsepnya dengan benar."</p>
+                </div>
+            </div>
+            
+            <h3>Tentang Saya</h3>
+            <p>Saya adalah guru kimia dengan pengalaman mengajar lebih dari 8 tahun. Saya sangat passionate dalam mengembangkan media pembelajaran interaktif untuk membantu siswa memahami konsep-konsep kimia dengan lebih mudah dan menyenangkan.</p>
+            
+            <h3>Media Pembelajaran Lainnya</h3>
+            <ul>
+                <li>Modul Interaktif Stoikiometri</li>
+                <li>Simulasi Virtual Laboratorium Kimia</li>
+                <li>Video Pembelajaran Reaksi Redoks</li>
+                <li>Aplikasi Mobile Tabel Periodik Interaktif</li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <p>Media Pembelajaran Kimia Interaktif &copy; 2023 - Gilang Yuda Pratama, S.Pd</p>
+    </footer>
+
+    <script>
+        // Navigasi
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Hapus kelas aktif dari semua link dan section
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+                
+                // Tambahkan kelas aktif ke link yang diklik
+                this.classList.add('active');
+                
+                // Tampilkan section yang sesuai
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        
+        // Simulasi Pendahuluan
+        document.getElementById('zatSelector').addEventListener('change', function() {
+            const value = this.value;
+            const resultDiv = document.getElementById('zatResult');
+            
+            if (value === '') {
+                resultDiv.style.display = 'none';
+                return;
+            }
+            
+            resultDiv.style.display = 'block';
+            
+            if (value === 'asam') {
+                resultDiv.innerHTML = '<strong>Larutan HCl</strong> adalah <strong>asam kuat</strong>. Asam memiliki pH kurang dari 7 dan dapat menetralkan basa.';
+                resultDiv.style.backgroundColor = '#f8d7da';
+            } else if (value === 'basa') {
+                resultDiv.innerHTML = '<strong>Larutan NaOH</strong> adalah <strong>basa kuat</strong>. Basa memiliki pH lebih dari 7 dan dapat menetralkan asam.';
+                resultDiv.style.backgroundColor = '#d1ecf1';
+            } else if (value === 'garam') {
+                resultDiv.innerHTML = '<strong>Larutan NaCl</strong> adalah <strong>garam</strong>. Garam terbentuk dari reaksi asam dan basa dan biasanya memiliki pH netral.';
+                resultDiv.style.backgroundColor = '#d4edda';
+            } else if (value === 'koloid') {
+                resultDiv.innerHTML = '<strong>Susu</strong> adalah contoh <strong>koloid</strong> (emulsi). Koloid adalah sistem heterogen dimana partikel terdispersi dalam medium pendispersi.';
+                resultDiv.style.backgroundColor = '#e8f4fc';
+            }
+        });
+        
+        // Simulasi Pengukuran pH
+        function ukurPH() {
+            const selectedPH = document.getElementById('phSelector').value;
+            const indicator = document.getElementById('phIndicator');
+            const phValue = document.getElementById('phValue');
+            
+            // Posisi indikator pada skala pH (0-14)
+            const position = (selectedPH / 14) * 100;
+            indicator.style.left = `${position}%`;
+            
+            // Tampilkan nilai pH
+            phValue.textContent = `pH = ${selectedPH}`;
+            
+            // Warna berdasarkan pH
+            if (selectedPH < 3) {
+                phValue.style.color = '#e74c3c';
+            } else if (selectedPH < 6) {
+                phValue.style.color = '#f39c12';
+            } else if (selectedPH < 8) {
+                phValue.style.color = '#f1c40f';
+            } else if (selectedPH < 11) {
+                phValue.style.color = '#2ecc71';
+            } else {
+                phValue.style.color = '#3498db';
+            }
+        }
+        
+        // Kuis
+        function checkAnswer(questionId, correctAnswer) {
+            const selectedOption = document.querySelector(`input[name="${questionId}"]:checked`);
+            const resultDiv = document.getElementById(`${questionId}-result`);
+            
+            if (!selectedOption) {
+                resultDiv.textContent = 'Silakan pilih jawaban terlebih dahulu.';
+                resultDiv.className = 'result incorrect';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            if (selectedOption.value === correctAnswer) {
+                resultDiv.textContent = 'Jawaban Anda benar!';
+                resultDiv.className = 'result correct';
+            } else {
+                resultDiv.textContent = 'Jawaban Anda salah. Silakan coba lagi.';
+                resultDiv.className = 'result incorrect';
+            }
+            
+            resultDiv.style.display = 'block';
+        }
+        
+        // Simulasi Kesetimbangan
+        function simulasiKesetimbangan() {
+            const stress = document.getElementById('stressSelector').value;
+            const resultDiv = document.getElementById('equilibriumResult');
+            
+            resultDiv.style.display = 'block';
+            
+            switch(stress) {
+                case 'tambahA':
+                    resultDiv.innerHTML = 'Ketika konsentrasi A ditambah, sistem akan bereaksi dengan mengurangi konsentrasi A. Kesetimbangan bergeser ke kanan.';
+                    break;
+                case 'kurangA':
+                    resultDiv.innerHTML = 'Ketika konsentrasi A dikurangi, sistem akan bereaksi dengan menambah konsentrasi A. Kesetimbangan bergeser ke kiri.';
+                    break;
+                case 'tambahB':
+                    resultDiv.innerHTML = 'Ketika konsentrasi B ditambah, sistem akan bereaksi dengan mengurangi konsentrasi B. Kesetimbangan bergeser ke kiri.';
+                    break;
+                case 'tekanan':
+                    resultDiv.innerHTML = 'Ketika tekanan ditingkatkan, sistem akan bereaksi dengan mengurangi tekanan. Kesetimbangan bergeser ke sisi dengan jumlah mol gas yang lebih sedikit.';
+                    break;
+                case 'suhu':
+                    resultDiv.innerHTML = 'Ketika suhu ditingkatkan, sistem akan bereaksi dengan mengurangi suhu. Kesetimbangan bergeser ke arah reaksi endoterm.';
+                    break;
+            }
+        }
+        
+        // Simulasi Sifat Koligatif - Penurunan Tekanan Uap
+        function updatePressure(value) {
+            const pressureValue = value;
+            document.getElementById('pressureValue').textContent = pressureValue === '0' ? '0 (Pelarut Murni)' : pressureValue;
+            
+            // Hitung penurunan tekanan uap (ΔP = P₀ · Xₜ)
+            const pressureDrop = pressureValue * 100;
+            const currentPressure = 100 - pressureDrop;
+            
+            document.getElementById('pressureResult').textContent = currentPressure.toFixed(0) + '%';
+            
+            // Update visualisasi partikel uap
+            const vaporParticles = document.getElementById('vaporParticles');
+            vaporParticles.innerHTML = '';
+            
+            const particleCount = 20 - (pressureValue * 40);
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '6px';
+                particle.style.height = '6px';
+                particle.style.backgroundColor = '#ffffff88';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 95 + '%';
+                particle.style.top = Math.random() * 95 + '%';
+                vaporParticles.appendChild(particle);
+            }
+        }
+        
+        // Simulasi Sifat Koligatif - Kenaikan Titik Didih
+        function updateBoilingPoint(value) {
+            document.getElementById('boilingValue').textContent = value + ' molal';
+            
+            // Hitung kenaikan titik didih (ΔTb = Kb * m * i)
+            // Asumsi Kb = 0.52 °C/molal (untuk air) dan i = 1 (nonelektrolit)
+            const deltaTb = 0.52 * value;
+            const newBoilingPoint = 100 + deltaTb;
+            
+            document.getElementById('boilingTemp').textContent = newBoilingPoint.toFixed(1) + '°C';
+            document.getElementById('boilingResult').textContent = newBoilingPoint.toFixed(1) + '°C';
+            
+            // Update visualisasi gelembung
+            const bubbleContainer = document.getElementById('bubbleContainer');
+            bubbleContainer.innerHTML = '';
+            
+            const bubbleCount = 3 + Math.floor(value * 5);
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.style.display = 'inline-block';
+                bubble.style.width = (5 + Math.random() * 10) + 'px';
+                bubble.style.height = (5 + Math.random() * 10) + 'px';
+                bubble.style.backgroundColor = '#ffffffaa';
+                bubble.style.borderRadius = '50%';
+                bubble.style.margin = '0 2px';
+                bubble.style.animation = `rise ${1 + Math.random() * 2}s infinite`;
+                bubbleContainer.appendChild(bubble);
+            }
+            
+            // Tambahkan style untuk animasi gelembung
+            if (!document.getElementById('bubbleAnimation')) {
+                const style = document.createElement('style');
+                style.id = 'bubbleAnimation';
+                style.textContent = `
+                    @keyframes rise {
+                        0% { transform: translateY(0); opacity: 0; }
+                        10% { opacity: 1; }
+                        90% { opacity: 1; }
+                        100% { transform: translateY(-30px); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Simulasi Sifat Koligatif - Penurunan Titik Beku
+        function updateMolalitas(value) {
+            document.getElementById('molalitasValue').textContent = value + ' molal';
+            
+            // Hitung penurunan titik beku (ΔTf = Kf * m * i)
+            // Asumsi Kf = 1.86 °C/molal (untuk air) dan i = 1 (nonelektrolit)
+            const deltaTf = 1.86 * value;
+            const newFreezingPoint = 0 - deltaTf;
+            
+            document.getElementById('titikBeku').textContent = newFreezingPoint.toFixed(1) + '°C';
+            
+            // Update visual simulasi
+            const freezingSim = document.querySelector('#freezingSim > div');
+            const heightPercentage = 80 - (deltaTf * 5); // Skala visual
+            freezingSim.style.height = Math.max(10, heightPercentage) + '%';
+            
+            // Update visualisasi kristal es
+            const iceCrystals = document.getElementById('iceCrystals');
+            iceCrystals.innerHTML = '';
+            
+            if (value > 0) {
+                const crystalCount = 5 + Math.floor(value * 10);
+                for (let i = 0; i < crystalCount; i++) {
+                    const crystal = document.createElement('div');
+                    crystal.style.position = 'absolute';
+                    crystal.style.width = '10px';
+                    crystal.style.height = '10px';
+                    crystal.style.backgroundImage = `linear-gradient(45deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%)`;
+                    crystal.style.left = Math.random() * 95 + '%';
+                    crystal.style.bottom = Math.random() * 95 + '%';
+                    crystal.style.clipPath = 'polygon(50% 0%, 70% 25%, 100% 30%, 80% 50%, 100% 70%, 70% 75%, 50% 100%, 30% 75%, 0% 70%, 20% 50%, 0% 30%, 30% 25%)';
+                    iceCrystals.appendChild(crystal);
+                }
+            }
+        }
+        
+        // Simulasi Sifat Koligatif - Tekanan Osmotik
+        function updateOsmoticPressure(value) {
+            document.getElementById('osmoticValue').textContent = value + ' M';
+            
+            // Hitung tekanan osmotik (π = M * R * T * i)
+            // Asumsi R = 0.082, T = 300K, i = 1 (nonelektrolit)
+            const osmoticPressure = value * 0.082 * 300;
+            const heightDifference = value * 20; // Skala visual
+            
+            document.getElementById('osmoticResult').textContent = osmoticPressure.toFixed(2) + ' atm';
+            document.getElementById('heightDifference').textContent = heightDifference.toFixed(1) + ' cm';
+            
+            // Update visualisasi tingkat larutan
+            const solutionLevel = document.getElementById('solutionLevel');
+            solutionLevel.style.height = (50 + heightDifference) + '%';
+            
+            // Update visualisasi aliran pelarut
+            const solventFlow = document.getElementById('solventFlow');
+            solventFlow.innerHTML = '';
+            
+            if (value > 0) {
+                const flowIntensity = Math.min(10, Math.floor(value * 20));
+                for (let i = 0; i < flowIntensity; i++) {
+                    const droplet = document.createElement('div');
+                    droplet.style.position = 'absolute';
+                    droplet.style.width = '4px';
+                    droplet.style.height = '4px';
+                    droplet.style.backgroundColor = '#3498db88';
+                    droplet.style.borderRadius = '50%';
+                    droplet.style.left = (30 + Math.random() * 40) + '%';
+                    droplet.style.top = Math.random() * 100 + '%';
+                    droplet.style.animation = `flow ${1 + Math.random() * 2}s infinite`;
+                    solventFlow.appendChild(droplet);
+                }
+            }
+            
+            // Tambahkan style untuk animasi aliran
+            if (!document.getElementById('flowAnimation')) {
+                const style = document.createElement('style');
+                style.id = 'flowAnimation';
+                style.textContent = `
+                    @keyframes flow {
+                        0% { transform: translateX(0); opacity: 0; }
+                        10% { opacity: 1; }
+                        90% { opacity: 1; }
+                        100% { transform: translateX(40px); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Simulasi Koloid - Efek Tyndall
+        function demonstrasiTyndall() {
+            const systemType = document.getElementById('systemSelector').value;
+            const lightBeam = document.getElementById('lightBeam');
+            const resultText = document.getElementById('tyndallResult');
+            
+            if (systemType === 'koloid') {
+                lightBeam.style.opacity = '1';
+                resultText.textContent = 'Efek Tyndall terlihat jelas pada koloid. Cahaya tersebar oleh partikel koloid.';
+            } else if (systemType === 'suspensi') {
+                lightBeam.style.opacity = '0.3';
+                resultText.textContent = 'Pada suspensi, partikel terlalu besar dan cepat mengendap sehingga efek Tyndall tidak konsisten.';
+            } else {
+                lightBeam.style.opacity = '0';
+                resultText.textContent = 'Pada larutan sejati, efek Tyndall tidak terlihat karena partikel terlalu kecil untuk menghamburkan cahaya.';
+            }
+        }
+        
+        // Inisialisasi simulasi
+        window.onload = function() {
+            updatePressure(0);
+            updateBoilingPoint(0);
+            updateMolalitas(0);
+            updateOsmoticPressure(0);
+        };
+    </script>
+</body>
+</html>
